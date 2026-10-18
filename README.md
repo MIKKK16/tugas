@@ -1,5 +1,13 @@
 # tugas
 
+untuk hasil code bisa dilihat dibranch
+
+# Hasil Praktikum 1
+<img width="376" height="503" alt="Screenshot 2026-10-18 203246" src="https://github.com/user-attachments/assets/ac1f9151-97f7-4c77-b631-fab0aa619a6f" />
+
+# Hasil Praktikum 2
+<img width="395" height="503" alt="Screenshot 2026-10-18 204518" src="https://github.com/user-attachments/assets/b77a3d37-bf11-4bf6-874e-8dbd26866561" />
+
 A new Flutter project.
 
 ## Getting Started
