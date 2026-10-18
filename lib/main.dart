@@ -1,121 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:tugas/basic_widget/image_widget.dart';
-import 'package:tugas/basic_widget/input_widget.dart';
-import 'package:tugas/basic_widget/text_widget.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const DashboardApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class DashboardApp extends StatelessWidget {
+  const DashboardApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.indigo),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.indigo,
       ),
-      home: const MyHomePage(title: 'Daftar Akun Stimata'),
-      
+      themeMode: ThemeMode.system,
+      home: const DashboardPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  DateTime? _dateTime = DateTime.now();
-
-  void _incrementCounter() {
-    setState(() {
-     
-      _counter++;
-    });
-  }
-
-
-  void tampilkanDialog(BuildContext context) {
-    Widget okButton = TextButton(
-      child: Text("Ok"),
-      onPressed: () => Navigator. pop(context),
-      );
-  
-
-  AlertDialog dialog = AlertDialog(
-    title: Text("Anda yakin ingin Menambahkan Data Baru?"),
-    content: Text("Tekan Ok jika Yakin"),
-    actions: [okButton],
-  );
-
-  showDialog(context: context, builder: (BuildContext context) {
-    return dialog;
-  },
-  );
-}
-
-
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key});
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-        title: Text(widget.title),
+      appBar: AppBar(title: const Text('Student Dashboard')),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final columns = constraints.maxWidth >= 700 ? 2 : 1;
+          return GridView.count(
+            padding: const EdgeInsets.all(16),
+            crossAxisCount: columns,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 2.6,
+            children: const [
+              DashboardCard(title: 'Assignments', value: '8'),
+              DashboardCard(title: 'Attendance', value: '92%'),
+              DashboardCard(title: 'Portfolio', value: 'Ready'),
+              DashboardCard(title: 'Current week', value: '02'),
+            ],
+          );
+        },
       ),
-      body: Center(
+    );
+  }
+}
 
-        child: Column(
-
-          mainAxisAlignment: .center,
+class DashboardCard extends StatelessWidget {
+  const DashboardCard({required this.title, required this.value, super.key});
+  final String title;
+  final String value;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
           children: [
-            Text(_dateTime?.toIso8601String() ?? "Test"),
-            MyImageWidget(),
-            InputTextWidget(),
-
-            ElevatedButton(
-              child: Text("Ubah Tanggal"),
-              onPressed: () async {
-                final DateTime? tanggal = await showDatePicker(
-                  context: context, 
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2004, 1), 
-                  lastDate: DateTime(2100),
-                );
-
-                if (tanggal != null && tanggal != _dateTime) {
-                  setState(() {
-                    _dateTime = tanggal;
-                  });
-                }  
-              }   
-            ),
-             
-            MyTextWidget(),
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Expanded(child: Text(title)),
+            Text(value, style: Theme.of(context).textTheme.headlineSmall),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => tampilkanDialog(context),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
